@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -59,10 +60,16 @@ public class Customer {
     @Pattern(regexp = "^[0-9]{10}$", message = "Некорректный номер телефона")
     private String phone;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Phone> phones = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Email> emails = new ArrayList<>();
+
     public Customer() {
     }
 
-    public Customer(String login, String password, String email, String phone, String firstname, String lastname, String patronymic, String dateOfBirth) {
+    public Customer(String login, String password, String email, String phone, String firstname, String lastname, String patronymic, String dateOfBirth, List<Phone> phones, List<Email> emails) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -71,6 +78,8 @@ public class Customer {
         this.lastname = lastname;
         this.patronymic = patronymic;
         this.dateOfBirth = dateOfBirth;
+        this.phones = phones;
+        this.emails = emails;
     }
 
     public long getId() {
@@ -139,6 +148,22 @@ public class Customer {
 
     public String getDateOfBirth() {
         return Optional.ofNullable(dateOfBirth).orElse("yyyy-MM-dd");
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
+    public List<Email> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<Email> emails) {
+        this.emails = emails;
     }
 
     public List<String> getContacts() {

@@ -25,7 +25,8 @@ public class Phone {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    public Phone() {}
+    public Phone() {
+    }
 
     public Phone(String phone, Customer customer) {
         this.phone = phone;
