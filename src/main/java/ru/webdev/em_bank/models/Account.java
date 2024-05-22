@@ -1,8 +1,146 @@
+//package ru.webdev.em_bank.models;
+//
+//import jakarta.persistence.*;
+//import jakarta.validation.constraints.NotEmpty;
+//import java.math.BigDecimal;
+//import java.time.LocalDateTime;
+//import java.util.List;
+//
+//@Entity
+//@Table(name = "Account")
+//public class Account {
+//
+//    @Id
+//    @Column(name = "id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private long id;
+//
+//    @OneToOne
+//    @JoinColumn(name = "id")
+//    private Customer customer;
+//
+//    @ManyToMany(mappedBy = "accounts")
+//    private List<Transaction> transactions;
+//
+//
+//    @NotEmpty
+//    @Column(name = "id")
+////    @Column(insertable=false, updatable=false)
+//    private long id;
+//
+//    @NotEmpty
+//    @Column(name = "balance")
+//    private BigDecimal balance;
+//
+//    @NotEmpty
+//    @Column(name = "accountType")
+//    private String accountType;
+//
+//    @NotEmpty
+//    @Column(name = "accountStatus")
+//    private String accountStatus;
+//
+//    @NotEmpty
+//    @Column(name = "currency")
+//    private String currency;
+//
+//    @NotEmpty
+//    @Column(name = "createdAt")
+//    private LocalDateTime createdAt;
+//
+//    @NotEmpty
+//    @Column(name = "updatedAt")
+//    private LocalDateTime updatedAt;
+//
+//    public Account() {
+//    }
+//
+//    public Account(long id, BigDecimal balance, String accountType, String accountStatus, String currency, LocalDateTime createdAt, LocalDateTime updatedAt) {
+//        this.id = id;
+//        this.balance = balance;
+//        this.accountType = accountType;
+//        this.accountStatus = accountStatus;
+//        this.currency = currency;
+//        this.createdAt = LocalDateTime.now();
+//        this.updatedAt = LocalDateTime.now();
+//    }
+//
+//    public long getAccountId() {
+//        return id;
+//    }
+//
+//    public long getCustomerId() {
+//        return id;
+//    }
+//
+//    public void setCustomerId(long id) {
+//        this.id = id;
+//    }
+//
+//    public BigDecimal getBalance() {
+//        return balance;
+//    }
+//
+//    public void setBalance(BigDecimal balance) {
+//        this.balance = balance;
+//    }
+//
+//    public String getAccountType() {
+//        return accountType;
+//    }
+//
+//    public void setAccountType(String accountType) {
+//        this.accountType = accountType;
+//    }
+//
+//    public String getAccountStatus() {
+//        return accountStatus;
+//    }
+//
+//    public void setAccountStatus(String accountStatus) {
+//        this.accountStatus = accountStatus;
+//    }
+//
+//    public String getCurrency() {
+//        return currency;
+//    }
+//
+//    public void setCurrency(String currency) {
+//        this.currency = currency;
+//    }
+//
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(LocalDateTime createdAt) {
+//        this.createdAt = createdAt;
+//    }
+//
+//    public LocalDateTime getUpdatedAt() {
+//        return updatedAt;
+//    }
+//
+//    public void setUpdatedAt(LocalDateTime updatedAt) {
+//        this.updatedAt = updatedAt;
+//    }
+//
+//    public void setCustomer(Customer customer) {
+//        this.customer = customer;
+//    }
+//
+//    public Customer getCustomer() {
+//        return customer;
+//    }
+//
+//}
+
 package ru.webdev.em_bank.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -10,9 +148,9 @@ import java.util.List;
 public class Account {
 
     @Id
-    @Column(name = "account_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @OneToOne
     @JoinColumn(name = "customer_id")
@@ -21,57 +159,50 @@ public class Account {
     @ManyToMany(mappedBy = "accounts")
     private List<Transaction> transactions;
 
-    @NotEmpty
-    @Column(name = "customer_id")
-    private long customer_id;
+    @Column(name = "customer_id_fk")
+    private int customerId;
 
-    @NotEmpty
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @NotEmpty
     @Column(name = "account_type")
-    private String account_type;
+    private String accountType;
 
-    @NotEmpty
     @Column(name = "account_status")
-    private String account_status;
+    private String accountStatus;
 
-    @NotEmpty
     @Column(name = "currency")
     private String currency;
 
-    @NotEmpty
     @Column(name = "created_at")
-    private String created_at;
+    private LocalDateTime createdAt;
 
-    @NotEmpty
     @Column(name = "updated_at")
-    private String updated_at;
+    private LocalDateTime updatedAt;
 
     public Account() {
     }
 
-    public Account(long customer_id, BigDecimal balance, String account_type, String account_status, String currency, String created_at, String updated_at) {
-        this.customer_id = customer_id;
+    public Account(int customerId, BigDecimal balance, String accountType, String accountStatus, String currency, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.customerId = customerId;
         this.balance = balance;
-        this.account_type = account_type;
-        this.account_status = account_status;
+        this.accountType = accountType;
+        this.accountStatus = accountStatus;
         this.currency = currency;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public long getAccount_id() {
+    public int getId() {
         return id;
     }
 
-    public long getCustomer_id() {
-        return customer_id;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(long customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public BigDecimal getBalance() {
@@ -82,20 +213,20 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getAccount_type() {
-        return account_type;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setAccount_type(String account_type) {
-        this.account_type = account_type;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
-    public String getAccount_status() {
-        return account_status;
+    public String getAccountStatus() {
+        return accountStatus;
     }
 
-    public void setAccount_status(String account_status) {
-        this.account_status = account_status;
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public String getCurrency() {
@@ -106,20 +237,20 @@ public class Account {
         this.currency = currency;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getUpdated_at() {
-        return updated_at;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public void setCustomer(Customer customer) {
@@ -130,4 +261,11 @@ public class Account {
         return customer;
     }
 
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 }

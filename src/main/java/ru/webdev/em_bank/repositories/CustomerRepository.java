@@ -12,7 +12,7 @@ import ru.webdev.em_bank.models.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-    Optional<Customer> findByCustomerId(long id);
+    Optional<Customer> findById(int id);
 
     Optional<Customer> findByLogin(String login);
 
@@ -29,28 +29,28 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     // Метод для добавления  номера телефона пользователя
     @Modifying
-    @Query("UPDATE Customer c SET c.phones = :phone WHERE c.id = :id AND (:newPhone IS NULL OR c.phones <> :newPhone)")
-    int addPhone(@Param("id") long id, @Param("phone") String phone, @Param("newPhone") String newPhone);
+    @Query("UPDATE Customer c SET c.phone = :phone WHERE c.id = :id AND (:newPhone IS NULL OR c.phone <> :newPhone)")
+    int addPhone(@Param("id") int id, @Param("phone") String phone, @Param("newPhone") String newPhone);
 
-    // Метод для добавления или обновления электронной почты пользователя
+    // Метод для добавления электронной почты пользователя
     @Modifying
-    @Query("UPDATE Customer c SET c.emails = :email WHERE c.id = :id AND (:newEmail IS NULL OR c.emails <> :newEmail)")
-    String addEmail(@Param("id") long id, @Param("email") String email, @Param("newEmail") String newEmail);
+    @Query("UPDATE Customer c SET c.email = :email WHERE c.id = :id AND (:newEmail IS NULL OR c.email <> :newEmail)")
+    String addEmail(@Param("id") int id, @Param("email") String email, @Param("newEmail") String newEmail);
 
     // Метод для удаления номера телефона пользователя
     @Modifying
-    @Query("UPDATE Customer c SET c.phones = NULL WHERE c.id = :id AND c.phones = :phone")
-    String deletePhone(@Param("id") long id, @Param("phone") String phone);
+    @Query("UPDATE Customer c SET c.phone = NULL WHERE c.id = :id AND c.phone = :phone")
+    String deletePhone(@Param("id") int id, @Param("phone") String phone);
 
     // Метод для удаления электронной почты пользователя
     @Modifying
-    @Query("UPDATE Customer c SET c.emails = NULL WHERE c.id = :id AND c.emails = :email")
-    String deleteEmail(@Param("id") long id, @Param("email") String email);
+    @Query("UPDATE Customer c SET c.email = NULL WHERE c.id = :id AND c.email = :email")
+    String deleteEmail(@Param("id") int id, @Param("email") String email);
 
-    // Метод для проверки, является ли номер телефона уникальным
-    boolean isPhoneUnique(@Param("id") long id, @Param("phone") String phone);
-
-    // Метод для проверки, является ли электронная почта уникальной
-    boolean isEmailUnique(@Param("id") long id, @Param("email") String email);
+//    // Метод для проверки, является ли номер телефона уникальным
+//    boolean isPhoneUnique(@Param("id") int id, @Param("phone") String phone);
+//
+//    // Метод для проверки, является ли электронная почта уникальной
+//    boolean isEmailUnique(@Param("id") int id, @Param("email") String email);
 
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import ru.webdev.em_bank.models.Account;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
-    Optional<Account> findByCustomerId(Long id);
+public interface AccountRepository extends JpaRepository<Account, Integer> {
+    Optional<Account> findByCustomerId(int id);
 }

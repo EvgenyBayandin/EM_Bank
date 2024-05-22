@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.webdev.em_bank.models.Email;
 
 @Repository
-public interface EmailRepository extends JpaRepository<Email, Long> {
-    List<Email> findByCustomerId(Long customerId);
+public interface EmailRepository extends JpaRepository<Email, Integer> {
+    List<Email> findByCustomerId(int id);
 
-    boolean existsByEmailAndCustomerId(String email, Long customerId);
+    boolean existsByEmailAndCustomerId(String email, int id);
 }

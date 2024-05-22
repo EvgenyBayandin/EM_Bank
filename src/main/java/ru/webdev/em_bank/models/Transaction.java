@@ -3,27 +3,28 @@ package ru.webdev.em_bank.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "Transaction")
 public class Transaction {
     @Id
-    @Column(name = "transaction_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @ManyToMany
     @JoinTable(
             name = "transaction_account",
-            joinColumns = @JoinColumn(name = "transaction_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_id")
+            joinColumns = @JoinColumn(name = "transactionId"),
+            inverseJoinColumns = @JoinColumn(name = "accountId")
     )
     private List<Account> accounts;
 
     @NotEmpty
     @Column(name = "transaction_type")
-    private String transaction_type;
+    private String transactionType;
 
     @NotEmpty
     @Column(name = "amount")
@@ -31,19 +32,19 @@ public class Transaction {
 
     @NotEmpty
     @Column(name = "created_at")
-    private String created_at;
+    private LocalDateTime createdAt;
 
     public Transaction() {
     }
 
-    public Transaction(List<Account> accounts, String transaction_type, BigDecimal amount, String created_at) {
+    public Transaction(List<Account> accounts, String transactionType, BigDecimal amount, LocalDateTime createdAt) {
         this.accounts = accounts;
-        this.transaction_type = transaction_type;
+        this.transactionType = transactionType;
         this.amount = amount;
-        this.created_at = created_at;
+        this.createdAt = LocalDateTime.now();
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -51,31 +52,31 @@ public class Transaction {
         return accounts;
     }
 
-    public String getTransaction_type() {
-        return transaction_type;
+    public String getTransactionType() {
+        return transactionType;
     }
 
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 
-    public void setTransaction_type(String transaction_type) {
-        this.transaction_type = transaction_type;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

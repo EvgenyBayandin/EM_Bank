@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.webdev.em_bank.models.Phone;
 
 @Repository
-public interface PhoneRepository extends JpaRepository<Phone, Long> {
-    List<Phone> findByCustomerId(Long customerId);
+public interface PhoneRepository extends JpaRepository<Phone, Integer> {
+    List<Phone> findByCustomerId(int id);
 
-    boolean existsByPhoneAndCustomerId(String phone, Long customerId);
+    boolean existsByPhoneAndCustomerId(String phone, int id);
 }

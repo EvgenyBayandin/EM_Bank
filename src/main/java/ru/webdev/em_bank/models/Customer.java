@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,9 +17,9 @@ import org.springframework.lang.Nullable;
 public class Customer {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "customer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @NotEmpty(message = "Поле login не может быть пустым")
     @Size(min = 5, max = 100, message = "login должно быть от 5 до 100 символов")
@@ -60,16 +61,28 @@ public class Customer {
     @Pattern(regexp = "^[0-9]{10}$", message = "Некорректный номер телефона")
     private String phone;
 
+    @NotEmpty
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @NotEmpty
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Email> emails = new ArrayList<>();
 
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Account account;
+
     public Customer() {
     }
 
-    public Customer(String login, String password, String email, String phone, String firstname, String lastname, String patronymic, String dateOfBirth, List<Phone> phones, List<Email> emails) {
+    public Customer(String login, String password, String email, String phone, String firstname, String lastname, String patronymic, String dateOfBirth, List<Phone> phones, List<Email> emails, Account account, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -80,9 +93,12 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
         this.phones = phones;
         this.emails = emails;
+        this.account = account;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -164,6 +180,14 @@ public class Customer {
 
     public void setEmails(List<Email> emails) {
         this.emails = emails;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public List<String> getContacts() {
