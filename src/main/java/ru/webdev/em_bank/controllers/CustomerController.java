@@ -25,7 +25,7 @@ public class CustomerController {
                 @RequestParam(required = false) String lastname,
                         @RequestParam(required = false) String patronymic){
                                 if (firstname!= null && lastname!= null && patronymic!= null) {
-                                    return customerService.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrPatronymicContainingIgnoreCase(firstname, lastname, patronymic);
+                                    return customerService.findByFirstnameOrLastnameOrPatronymic(firstname, lastname, patronymic);
                                 }
                                 return Collections.emptyList();
     }

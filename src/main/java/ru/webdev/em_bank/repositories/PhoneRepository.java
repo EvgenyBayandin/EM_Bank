@@ -8,5 +8,6 @@ import ru.webdev.em_bank.models.Phone;
 @Repository
 public interface PhoneRepository extends JpaRepository<Phone, Long> {
     List<Phone> findByCustomerId(Long customerId);
+
     boolean existsByPhoneAndCustomerId(String phone, Long customerId);
 }

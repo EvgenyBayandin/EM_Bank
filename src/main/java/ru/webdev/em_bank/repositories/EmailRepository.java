@@ -8,5 +8,6 @@ import ru.webdev.em_bank.models.Email;
 @Repository
 public interface EmailRepository extends JpaRepository<Email, Long> {
     List<Email> findByCustomerId(Long customerId);
+
     boolean existsByEmailAndCustomerId(String email, Long customerId);
 }
