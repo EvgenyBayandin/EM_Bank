@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
 @Entity
-@Table(name = "phones")
+@Table(name = "phone")
 public class Phone {
 
     @Id
@@ -23,7 +23,7 @@ public class Phone {
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Phone() {
@@ -52,5 +52,6 @@ public class Phone {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        customer.getPhones().add(this);
     }
 }

@@ -30,14 +30,13 @@ public class Transaction {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @NotEmpty
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public Transaction() {
     }
 
-    public Transaction(List<Account> accounts, String transactionType, BigDecimal amount, LocalDateTime createdAt) {
+    public Transaction(List<Account> accounts, String transactionType, BigDecimal amount) {
         this.accounts = accounts;
         this.transactionType = transactionType;
         this.amount = amount;

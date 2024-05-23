@@ -1,5 +1,6 @@
 package ru.webdev.em_bank.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +23,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     List<Customer> findByFirstnameOrLastnameOrPatronymic(String firstname, String lastname, String patronymic);
 
-    Optional<Customer> findByDateOfBirth(String dateOfBirth);
+    Optional<Customer> findByDateOfBirth(LocalDate dateOfBirth);
 
     boolean existsByLogin(String login);
 

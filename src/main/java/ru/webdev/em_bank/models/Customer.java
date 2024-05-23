@@ -1,10 +1,10 @@
 package ru.webdev.em_bank.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import org.springframework.lang.Nullable;
 public class Customer {
 
     @Id
-    @Column(name = "customer_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -28,7 +28,7 @@ public class Customer {
 
     @NotEmpty(message = "Поле password не может быть пустым")
     @Column(name = "password")
-    @Max(value = 100, message = "Пароль не может быть более 100 символов")
+    @Size(max = 100, message = "Пароль не может быть более 100 символов")
     @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "Пароль должен быть не менее 8 символов и содержать строчные и прописные латинские буквы, цифры, спецсимволы")
     private String password;
 
@@ -46,10 +46,14 @@ public class Customer {
     @Column(name = "patronymic")
     private String patronymic;
 
-    @NotEmpty(message = "Поле Дата рождения не может быть пустым")
-    @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message = "Некорректный день рождения")
+//    @jakarta.validation.constraints.NotNull(message = "Поле Дата рождения не может быть пустым")
+//    @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message = "Некорректный день рождения")
+//    @Column(name = "dateOfBirth")
+//    private LocalDate dateOfBirth;
+//@jakarta.validation.constraints.NotNull(message = "Поле Дата рождения не может быть пустым")
+//@Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message = "Некорректный день рождения")
     @Column(name = "dateOfBirth")
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotEmpty(message = "Поле email не может быть пустым")
     @Column(name = "email")
@@ -61,14 +65,14 @@ public class Customer {
     @Pattern(regexp = "^[0-9]{10}$", message = "Некорректный номер телефона")
     private String phone;
 
-    @NotEmpty
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @NotEmpty
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Account account;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones = new ArrayList<>();
@@ -76,13 +80,12 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Email> emails = new ArrayList<>();
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Account account;
+
 
     public Customer() {
     }
 
-    public Customer(String login, String password, String email, String phone, String firstname, String lastname, String patronymic, String dateOfBirth, List<Phone> phones, List<Email> emails, Account account, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Customer(String login, String password, String email, String phone, String firstname, String lastname, String patronymic, LocalDate dateOfBirth, List<Phone> phones, List<Email> emails, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -93,10 +96,13 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
         this.phones = phones;
         this.emails = emails;
-        this.account = account;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+//        this.account = account;
+//        this.createdAt = LocalDateTime.now();
+//        this.updatedAt = LocalDateTime.now();
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
+
 
     public int getId() {
         return id;
@@ -158,12 +164,12 @@ public class Customer {
         this.patronymic = Optional.ofNullable(patronymic).orElse("");
     }
 
-    public void setDateOfBirth(@Nullable @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$") String dateOfBirth) {
+    public void setDateOfBirth(@Nullable @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$") LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getDateOfBirth() {
-        return Optional.ofNullable(dateOfBirth).orElse("yyyy-MM-dd");
+    public LocalDate getDateOfBirth() {
+        return Optional.ofNullable(dateOfBirth).orElse(LocalDate.parse("yyyy-MM-dd"));
     }
 
     public List<Phone> getPhones() {
@@ -192,6 +198,19 @@ public class Customer {
 
     public List<String> getContacts() {
         return Arrays.asList(phone, email);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + lastname +' ' + firstname +' ' + patronymic + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", phone='" + phones + '\'' +
+                ", email='" + emails + '\'' +
+                '}';
     }
 
 }
