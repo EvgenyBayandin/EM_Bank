@@ -70,6 +70,7 @@ public class Account {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        customer.setAccount(this); // Устанавливаем обратную связь
     }
 
     public Customer getCustomer() {

@@ -44,6 +44,7 @@ public class DataInitializer implements CommandLineRunner {
         Account account1 = new Account(new BigDecimal("1000.00"));
         customer1.setEmails(Arrays.asList(new Email("user1@example.org", customer1)));
         customer1.setPhones(Arrays.asList(new Phone("1234567891", customer1), new Phone("1234567892", customer1)));
+        account1.setCustomer(customer1);
         customer1.setAccount(account1);
         customerRepository.save(customer1);
 
@@ -64,6 +65,7 @@ public class DataInitializer implements CommandLineRunner {
         Account account2 = new Account(new BigDecimal("2500.75"));
         customer2.setEmails(Arrays.asList(new Email("jane.smith@example.com", customer2)));
         customer2.setPhones(Arrays.asList(new Phone("0987654322", customer2)));
+        account2.setCustomer(customer2);
         customer2.setAccount(account2);
         customerRepository.save(customer2);
     }

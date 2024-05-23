@@ -2,6 +2,8 @@ package ru.webdev.em_bank.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 
 @Entity
@@ -46,12 +49,9 @@ public class Customer {
     @Column(name = "patronymic")
     private String patronymic;
 
-//    @jakarta.validation.constraints.NotNull(message = "Поле Дата рождения не может быть пустым")
-//    @Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message = "Некорректный день рождения")
-//    @Column(name = "dateOfBirth")
-//    private LocalDate dateOfBirth;
-//@jakarta.validation.constraints.NotNull(message = "Поле Дата рождения не может быть пустым")
-//@Pattern(regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message = "Некорректный день рождения")
+    @NotNull(message = "Поле Дата рождения не может быть пустым")
+    @Past(message = "Дата рождения должна быть в прошлом")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dateOfBirth")
     private LocalDate dateOfBirth;
 
@@ -96,9 +96,6 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
         this.phones = phones;
         this.emails = emails;
-//        this.account = account;
-//        this.createdAt = LocalDateTime.now();
-//        this.updatedAt = LocalDateTime.now();
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
